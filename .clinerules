@@ -1,0 +1,20 @@
+# Project Overview
+
+This project is a Next.js 14 application built with Shadcn UI and Supabase. It leverages the latest features of Next.js, including the App Router, to create a modern, scalable, and maintainable web application.
+
+## Key Technologies
+
+- **Next.js 14**: A React framework for building server-rendered and statically generated web applications. The App Router is used for routing and navigation.
+- **Shadcn UI**: A collection of reusable components built using Radix UI and Tailwind CSS. It provides a modern and customizable UI for the application.
+- **Supabase**: An open-source Firebase alternative that provides a suite of tools for building applications, including a PostgreSQL database, authentication, real-time subscriptions, and storage.
+
+## Authentication
+
+The application uses Supabase for authentication, allowing users to sign up and log in using their email and password. Supabase handles user data and provides real-time updates. The application utilizes Supabase's real-time capabilities by using the WebSocket method, such as `supabase.from`, using the library `@supabase/supabase-js` to query and subscribe to data changes.
+
+## Development
+
+The project follows a modular structure, with components, hooks, and utilities organized into separate directories. It uses TypeScript for type safety and improved developer experience.
+
+To run the application, use the command `pnpm run dev`.
+

@@ -1,0 +1,27 @@
+this repo is forked from 
+
+https://github.com/michaeltroya/supa-next-starter
+
+--
+
+pnpm run dev
+
+
+--
+
+supabase - create docs on how to query supabase using next.js
+authentication - create doct to refer implementation
+startegy 
+
+
+1. how to directly connect to supabase
+2. authentication with auth0 and supabase. 
+
+
+
+3. use thinking model to create database schema with subabase first.
+4. implement authentication
+5. create functianlity_mapping_document with database
+6. functioality implementation plan
+7. implement.
+
