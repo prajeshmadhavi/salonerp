@@ -12,9 +12,17 @@ This project is a Next.js 14 application built with Shadcn UI and Supabase. It l
 
 The application uses Supabase for authentication, allowing users to sign up and log in using their email and password. Supabase handles user data and provides real-time updates. The application utilizes Supabase's real-time capabilities by using the WebSocket method, such as `supabase.from`, using the library `@supabase/supabase-js` to query and subscribe to data changes.
 
+## Development Rules
+
+1. The logged-in user's UID from Supabase must be stored in a session variable accessible throughout the project
+2. Every new table created in Supabase must include:
+   - `id` field as autoincrement primary key
+   - `UID` UUID NOT NULL REFERENCES auth.users(id)
+   - `created_at` timestamp with default value
+   - `updated_at` timestamp with default value
+
 ## Development
 
 The project follows a modular structure, with components, hooks, and utilities organized into separate directories. It uses TypeScript for type safety and improved developer experience.
 
 To run the application, use the command `pnpm run dev`.
-
