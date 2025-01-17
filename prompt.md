@@ -27,7 +27,7 @@ Implementation Steps for Appointment Module Database Schema:
    - Add unique constraints where appropriate
    - Add check constraints for valid values (e.g., positive amounts)
 
-4. Create Indexes:
+4. Create Indexes:I am going to create a database for this project. Follow these instructions every time I create a table: Use a Supabase database structure for a Salon ERP system with an ID-based schema. Each table must include a UUID as the primary key (`id`), relevant fields, timestamps (`created_at`, `updated_at`), and foreign key relationships. Ensure all IDs are generated using `uuid_generate_v4()`.
    - Create indexes on frequently queried fields (appointment_date, customer_id, status)
 
 5. Implement Data Validation:
