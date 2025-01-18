@@ -86,6 +86,28 @@ JOIN services s ON a.service_id = s.id
 WHERE a.status IN ('pending', 'confirmed')
 ORDER BY st.name, a.appointment_date, a.appointment_time;
 
+-- Insert sample customers
+INSERT INTO customers (id, name, phone_number1, gender, email_id) VALUES
+    ('11111111-1111-1111-1111-111111111111', 'John Doe', '1234567890', 'male', 'john@example.com'),
+    ('22222222-2222-2222-2222-222222222222', 'Jane Smith', '0987654321', 'female', 'jane@example.com');
+
+-- Insert sample services  
+INSERT INTO services (id, service_name) VALUES
+    ('33333333-3333-3333-3333-333333333333', 'Haircut'),
+    ('44444444-4444-4444-4444-444444444444', 'Manicure'),
+    ('55555555-5555-5555-5555-555555555555', 'Facial');
+
+-- Insert sample staff
+INSERT INTO staff (id, name, phone_number1, gender) VALUES
+    ('66666666-6666-6666-6666-666666666666', 'Alice Johnson', '1122334455', 'female'),
+    ('77777777-7777-7777-7777-777777777777', 'Bob Williams', '5566778899', 'male');
+
+-- Insert sample appointments
+INSERT INTO appointments (id, customer_id, service_id, staff_id, appointment_date, appointment_time, status) VALUES
+    ('88888888-8888-8888-8888-888888888888', '11111111-1111-1111-1111-111111111111', '33333333-3333-3333-3333-333333333333', '66666666-6666-6666-6666-666666666666', '2024-03-22', '10:00:00', 'confirmed'),
+    ('99999999-9999-9999-9999-999999999999', '22222222-2222-2222-2222-222222222222', '44444444-4444-4444-4444-444444444444', '77777777-7777-7777-7777-777777777777', '2024-03-23', '14:30:00', 'pending'),
+    ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '11111111-1111-1111-1111-111111111111', '55555555-5555-5555-5555-555555555555', '66666666-6666-6666-6666-666666666666', '2024-03-24', '11:00:00', 'confirmed');
+
 -- Triggers for updated_at
 CREATE OR REPLACE FUNCTION update_timestamp()
 RETURNS TRIGGER AS $$
