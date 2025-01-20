@@ -47,28 +47,68 @@ export function AppointmentForm() {
     })
   const [services, setServices] = useState<{ id: string; name: string }[]>([])
   const [staff, setStaff] = useState<{ id: string; name: string }[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchData() {
-      const { data: servicesData, error: servicesError } = await supabase
-        .from('services')
-        .select('*')
-        .returns<{ id: string; name: string }[]>()
+      try {
+        setLoading(true)
+        setError(null)
 
-      const { data: staffData, error: staffError } = await supabase
-        .from('staff')
-        .select('*')
-        .returns<{ id: string; name: string }[]>()
+        const { data: servicesData, error: servicesError } = await supabase
+          .from('services')
+          .select('id, service_name')
+          .order('service_name', { ascending: true })
 
-      if (!servicesError && servicesData) {
-        setServices(servicesData)
-      }
-      if (!staffError && staffData) {
-        setStaff(staffData)
+        const { data: staffData, error: staffError } = await supabase
+          .from('staff')
+          .select('id, name')
+          .order('name', { ascending: true })
+
+        if (servicesError || staffError) {
+          console.error('Supabase errors:', { servicesError, staffError })
+          throw new Error(servicesError?.message || staffError?.message)
+        }
+
+        console.log('Fetched services:', servicesData)
+        console.log('Fetched staff:', staffData)
+
+        const mappedServices =
+          servicesData?.map((s) => ({
+            id: s.id,
+            name: s.service_name,
+          })) || []
+
+        const mappedStaff =
+          staffData?.map((staffMember) => ({
+            id: staffMember.id,
+            name: staffMember.name,
+          })) || []
+
+        console.log('Mapped services:', mappedServices)
+        console.log('Mapped staff:', mappedStaff)
+
+        setServices(mappedServices)
+        setStaff(mappedStaff)
+
+        if (!mappedStaff.length) {
+          setError('No staff members found. Please add staff members first.')
+        }
+        if (!mappedServices.length) {
+          setError('No services found. Please add services first.')
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error)
+        setError(
+          error instanceof Error ? error.message : 'Failed to fetch data',
+        )
+      } finally {
+        setLoading(false)
       }
     }
     fetchData()
-  }, [])
+  }, [supabase])
 
   async function onSubmit(values: AppointmentFormValues) {
     try {
