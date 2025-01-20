@@ -46,6 +46,11 @@ The application uses Supabase for authentication, allowing users to sign up and 
    - Verify schema changes using `lib/verify-schema.ts`
    - Test database operations using `lib/test-connection.ts`
 
+9. Documentation maintenance:
+   - Update .clinerules with significant development changes
+   - Add new instructions for required development tasks
+   - Maintain version history of rule changes
+
 ## Development
 
 The project follows a modular structure, with components, hooks, and utilities organized into separate directories. It uses TypeScript for type safety and improved developer experience.

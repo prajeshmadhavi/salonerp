@@ -132,4 +132,22 @@ Display a success message upon successful data submission.
 
 ------------------------------------------------------------------------
 
-The /appointments page should appear right side on dashboard when i click on appointments
+On route /dashboard, when i click on appointments menu option, it should open /appointments page soo create new page appointments page. 
+When the "Appointments" option is clicked:
+Load the /appointments page in the content area on the right.
+Highlight the "Appointments" option in the sidebar to indicate it is active.
+Maintain a smooth transition or animation when the page is loaded.
+
+now appointments page is opening in separate page it should appear on the right side of the dashboard when the "Appointment" option is clicked.
+
+---------------------------------------------------------------------------
+
+Add Profile Option with Logout Dropdown
+
+Implement a Profile option on the right side of the Dashboard header.
+The Profile option should include:
+A user avatar or profile icon.
+A dropdown menu that appears on click.
+The dropdown menu should have the following option:
+Logout: Log the user out and redirect them to the login page.
+Ensure the dropdown menu is styled consistently with the rest of the Dashboard and is responsive across all devices.
