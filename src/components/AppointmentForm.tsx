@@ -115,12 +115,12 @@ export function AppointmentForm() {
           <label>Appointment Date</label>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline">
+              <Button variant="outline" className="w-full justify-start">
                 {watch('appointmentDate')?.toLocaleDateString() ||
                   'Select date'}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
+            <PopoverContent className="w-full p-0">
               <DayPickerCalendar
                 mode="single"
                 selected={watch('appointmentDate')}
@@ -139,15 +139,16 @@ export function AppointmentForm() {
           <label>Report Date</label>
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="outline">
-                {watch('reportDate')?.toLocaleDateString() || 'Select date'}
+              <Button variant="outline" className="w-full justify-start">
+                {watch('appointmentDate')?.toLocaleDateString() ||
+                  'Select date'}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
+            <PopoverContent className="w-full p-0">
               <DayPickerCalendar
                 mode="single"
-                selected={watch('reportDate')}
-                onSelect={(date) => date && setValue('reportDate', date)}
+                selected={watch('appointmentDate')}
+                onSelect={(date) => date && setValue('appointmentDate', date)}
               />
             </PopoverContent>
           </Popover>
