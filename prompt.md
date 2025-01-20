@@ -92,5 +92,44 @@ Here’s a corrected version of your prompt with clearer structure and formattin
    - Transfer Out
 5. Reports
 
----
+-----------------------------------------------------------------------------------------
 
+Create a New Page for Adding Appointments
+
+Use Material UI for designing the user interface.
+
+Form Title: "Add Appointment"
+
+Input Fields:
+
+Name (Text Input)
+Phone Number 1 (Text Input)
+Gender (Select Options: Male, Female, Other)
+Appointment Date (Date Picker)
+Appointment Time (Time Picker)
+Report Date (Date Picker)
+Advanced Paid (Number Input)
+Appointment Cancelled? (Select Options: Yes, No)
+Appointment Done? (Select Options: Yes, No)
+Dropdown Select Fields:
+
+Service: Dynamically load options from the services table in Supabase.
+Staff: Dynamically load options from the staff table in Supabase.
+"Add Service" Button:
+
+On clicking "Add Service", allow users to add a new row containing:
+Service (Dropdown)
+Staff (Dropdown)
+Each row should also include a Delete Button to remove the specific service and staff pair.
+Footer Buttons:
+
+Cancel Button: Clears the form or redirects to the previous page.
+Save Button: Submits the form.
+On Form Submission:
+
+Save the data to the appointments table in Supabase.
+Display a success message upon successful data submission.
+
+------------------------------------------------------------------------
+
+The /appointments page should appear right side on dashboard when i click on appointments
