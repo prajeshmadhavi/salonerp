@@ -13,8 +13,14 @@ export default function AppointmentsPage() {
             <h1 className="text-2xl font-semibold">Appointments</h1>
           </div>
           <div className="space-y-6">
-            <h2 className="text-xl font-medium">Add New Appointment</h2>
             <AppointmentForm />
+            <div className="mt-6 flex items-center justify-between">
+              <Button variant="outline">Add Service</Button>
+              <div className="space-x-2">
+                <Button variant="outline">Cancel</Button>
+                <Button>Save</Button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

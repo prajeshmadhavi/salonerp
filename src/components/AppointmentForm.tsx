@@ -19,6 +19,11 @@ import {
 import { useEffect, useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
+interface ServiceStaffPair {
+  serviceId: string
+  staffId: string
+}
+
 interface AppointmentFormValues {
   name: string
   phone: string
@@ -29,8 +34,7 @@ interface AppointmentFormValues {
   advancedPaid: number
   isCancelled: boolean
   isDone: boolean
-  serviceId: string
-  staffId: string
+  serviceStaffPairs: ServiceStaffPair[]
 }
 
 export function AppointmentForm() {
@@ -49,6 +53,9 @@ export function AppointmentForm() {
   const [staff, setStaff] = useState<{ id: string; name: string }[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [serviceStaffPairs, setServiceStaffPairs] = useState<
+    ServiceStaffPair[]
+  >([{ serviceId: '', staffId: '' }])
 
   useEffect(() => {
     async function fetchData() {
@@ -229,39 +236,103 @@ export function AppointmentForm() {
           </Select>
         </div>
 
-        <div className="space-y-2">
-          <label>Service</label>
-          <Select onValueChange={(value) => setValue('serviceId', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select service" />
-            </SelectTrigger>
-            <SelectContent>
-              {services.map((service) => (
-                <SelectItem key={service.id} value={service.id}>
-                  {service.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <div className="col-span-2 space-y-2">
+          {serviceStaffPairs.map((pair, index) => (
+            <div
+              key={index}
+              className="grid grid-cols-[1fr_1fr_auto] items-end gap-2"
+            >
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium">Service</label>
+                <Select
+                  value={pair.serviceId}
+                  onValueChange={(value) => {
+                    const newPairs = [...serviceStaffPairs]
+                    newPairs[index].serviceId = value
+                    setServiceStaffPairs(newPairs)
+                    setValue(`serviceStaffPairs.${index}.serviceId`, value)
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select service" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {services.map((service) => (
+                      <SelectItem key={service.id} value={service.id}>
+                        {service.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-        <div className="space-y-2">
-          <label>Staff</label>
-          <Select onValueChange={(value) => setValue('staffId', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select staff" />
-            </SelectTrigger>
-            <SelectContent>
-              {staff.map((staffMember) => (
-                <SelectItem key={staffMember.id} value={staffMember.id}>
-                  {staffMember.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium">Staff</label>
+                <Select
+                  value={pair.staffId}
+                  onValueChange={(value) => {
+                    const newPairs = [...serviceStaffPairs]
+                    newPairs[index].staffId = value
+                    setServiceStaffPairs(newPairs)
+                    setValue(`serviceStaffPairs.${index}.staffId`, value)
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select staff" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {staff.map((staffMember) => (
+                      <SelectItem key={staffMember.id} value={staffMember.id}>
+                        {staffMember.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Button
+                variant="destructive"
+                size="icon"
+                onClick={() => {
+                  const newPairs = serviceStaffPairs.filter(
+                    (_, i) => i !== index,
+                  )
+                  setServiceStaffPairs(newPairs)
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M3 6h18" />
+                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                </svg>
+              </Button>
+            </div>
+          ))}
+
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() =>
+              setServiceStaffPairs([
+                ...serviceStaffPairs,
+                { serviceId: '', staffId: '' },
+              ])
+            }
+          >
+            Add Service
+          </Button>
         </div>
       </div>
-      <Button type="submit">Add Appointment</Button>
     </form>
   )
 }
