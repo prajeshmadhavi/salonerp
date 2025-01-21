@@ -321,7 +321,7 @@ export function AppointmentForm() {
 
           <Button
             variant="outline"
-            className="w-full"
+            className="w-50"
             onClick={() =>
               setServiceStaffPairs([
                 ...serviceStaffPairs,

@@ -14,8 +14,7 @@ export default function AppointmentsPage() {
           </div>
           <div className="space-y-6">
             <AppointmentForm />
-            <div className="mt-6 flex items-center justify-between">
-              <Button variant="outline">Add Service</Button>
+            <div className="mt-6 flex items-center justify-end">
               <div className="space-x-2">
                 <Button variant="outline">Cancel</Button>
                 <Button>Save</Button>
