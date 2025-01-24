@@ -28,6 +28,7 @@ CREATE TABLE services (
 -- Staff Table
 CREATE TABLE staff (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    UID UUID NOT NULL REFERENCES auth.users(id),
     name TEXT NOT NULL,
     phone_number1 TEXT NOT NULL,
     phone_number2 TEXT,
@@ -98,9 +99,9 @@ INSERT INTO services (id, service_name) VALUES
     ('55555555-5555-5555-5555-555555555555', 'Facial');
 
 -- Insert sample staff
-INSERT INTO staff (id, name, phone_number1, gender) VALUES
-    ('66666666-6666-6666-6666-666666666666', 'Alice Johnson', '1122334455', 'female'),
-    ('77777777-7777-7777-7777-777777777777', 'Bob Williams', '5566778899', 'male');
+INSERT INTO staff (id, UID, name, phone_number1, gender) VALUES
+    ('66666666-6666-6666-6666-666666666666', '11111111-1111-1111-1111-111111111111', 'Alice Johnson', '1122334455', 'female'),
+    ('77777777-7777-7777-7777-777777777777', '22222222-2222-2222-2222-222222222222', 'Bob Williams', '5566778899', 'male');
 
 -- Insert sample appointments
 INSERT INTO appointments (id, customer_id, service_id, staff_id, appointment_date, appointment_time, status) VALUES
@@ -142,3 +143,17 @@ ALTER TABLE customers ENABLE ROW LEVEL SECURITY;
 ALTER TABLE services ENABLE ROW LEVEL SECURITY;
 ALTER TABLE staff ENABLE ROW LEVEL SECURITY;
 ALTER TABLE appointments ENABLE ROW LEVEL SECURITY;
+
+-- Staff Table Policies
+CREATE POLICY "Enable read access for authenticated users" ON staff
+FOR SELECT USING (auth.role() = 'authenticated');
+
+CREATE POLICY "Enable insert for authenticated users" ON staff
+FOR INSERT WITH CHECK (auth.role() = 'authenticated' AND UID = auth.uid());
+
+CREATE POLICY "Enable update for owners" ON staff
+FOR UPDATE USING (auth.role() = 'authenticated' AND UID = auth.uid())
+WITH CHECK (UID = auth.uid());
+
+CREATE POLICY "Enable delete for owners" ON staff
+FOR DELETE USING (auth.role() = 'authenticated' AND UID = auth.uid());

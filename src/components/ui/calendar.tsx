@@ -14,6 +14,8 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 
+export { DayPickerCalendar as Calendar } from './day-picker-calendar'
+
 export function DatePickerWithRange({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {

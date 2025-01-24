@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/select'
 import { useEffect, useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import type { Session } from '@supabase/auth-helpers-nextjs'
 
 interface ServiceStaffPair {
   serviceId: string
@@ -37,7 +38,11 @@ interface AppointmentFormValues {
   serviceStaffPairs: ServiceStaffPair[]
 }
 
-export function AppointmentForm() {
+interface AppointmentFormProps {
+  session: Session
+}
+
+export function AppointmentForm({ session }: AppointmentFormProps) {
   const supabase = createClientComponentClient()
   const { register, handleSubmit, watch, setValue } =
     useForm<AppointmentFormValues>({

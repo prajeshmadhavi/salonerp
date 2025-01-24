@@ -36,12 +36,11 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
     },
     {
       title: 'Master',
-      href: '/dashboard/master',
       icon: <Users className="h-4 w-4" />,
       subItems: [
         {
           title: 'Staff',
-          href: '/dashboard/master/staff',
+          href: '/staff',
           icon: <Users className="h-4 w-4" />,
         },
         {

@@ -12,7 +12,7 @@ import {
   Path,
 } from 'react-hook-form'
 
-interface FormProps<T extends FieldValues> {
+interface FormProps<T extends FieldValues = FieldValues> {
   children: React.ReactNode
   form: UseFormReturn<T>
   onSubmit: SubmitHandler<T>
@@ -27,7 +27,9 @@ export function Form<T extends FieldValues>({
 }: FormProps<T>) {
   return (
     <form {...props} onSubmit={form.handleSubmit(onSubmit)}>
-      {children}
+      {React.cloneElement(children as React.ReactElement, {
+        ...form,
+      })}
     </form>
   )
 }
