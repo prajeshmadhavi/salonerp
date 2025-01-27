@@ -174,3 +174,34 @@ Styling:
 
 Use a clean, modern card design with rounded corners and a light background.
 Ensure responsive design for mobile and desktop.
+
+----------------------------------------------------------------------------------
+
+Design a customer management dashboard with a clean and modern UI. The layout should include the following elements:
+
+Statistics Section:
+
+Display three summary cards at the top showing the following:
+Total Customers
+Active Customers
+Inactive Customers
+Use clear, bold numbers and descriptive labels for each.
+Charts Section:
+
+Include a bar chart titled 'Customers This Week' to display the number of customers for each weekday (M, T, W, T, F, S).
+Add a donut chart titled 'Customers Visited the Shop' to display the percentage distribution of customers by time (Morning, Afternoon, Evening). Provide an interactive tooltip for more details when hovering over sections of the chart.
+Search Bar:
+
+Include a placeholder text field allowing users to search by customer details (Name, Mobile, Email, DOB, or Purchase Value) with a search icon.
+Customer Details Table:
+
+Create a table with the following columns:
+Customer Name
+Phone Number
+Email ID
+DOB
+Anniversary Date
+Purchase Value
+Visit Count
+Last Visited Date
+Action buttons (e.g., a delete button represented by a trash icon)

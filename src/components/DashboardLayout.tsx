@@ -45,7 +45,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         },
         {
           title: 'Customers',
-          href: '/dashboard/master/customers',
+          href: '/customers',
           icon: <User className="h-4 w-4" />,
         },
       ],
