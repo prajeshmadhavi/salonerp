@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { StaffForm } from '@/components/StaffForm'
 import { DashboardLayout } from '@/components/DashboardLayout'
+import { StaffPerformanceDashboard } from '@/components/StaffPerformanceDashboard'
 
 export default function StaffPage() {
   const totalRevenue = 5095 // TODO: Fetch from API
@@ -28,12 +29,11 @@ export default function StaffPage() {
         </div>
 
         <div className="mt-8">
-          <div className="rounded-lg bg-white p-6 shadow">
-            <h2 className="mb-4 text-xl font-semibold">Staff Overview</h2>
-            <div className="mb-4 rounded bg-gray-50 p-4">
-              <p className="text-lg">Total Revenue: ₹{totalRevenue}</p>
-            </div>
-          </div>
+          <StaffPerformanceDashboard
+            totalRevenue={totalRevenue}
+            staffRevenue={staffRevenue}
+            topPerformers={topPerformers}
+          />
         </div>
       </div>
     </DashboardLayout>
