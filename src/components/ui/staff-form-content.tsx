@@ -22,26 +22,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-import { DateRange } from 'react-day-picker'
-import { format } from 'date-fns'
-import { CalendarIcon } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
-import { useMemo, useState } from 'react'
 
 const staffFormSchema = z.object({
   name: z.string().min(2, {
     message: 'Name must be at least 2 characters.',
   }),
-  phone1: z.string().min(10, {
+  phone_number1: z.string().min(10, {
     message: 'Phone number must be at least 10 digits.',
   }),
-  phone2: z
+  phone_number2: z
     .string()
     .min(10, {
       message: 'Phone number must be at least 10 digits.',
@@ -80,13 +70,12 @@ interface StaffFormContentProps {
 
 export function StaffFormContent({ onSuccess }: StaffFormContentProps) {
   const { toast } = useToast()
-  const [open, setOpen] = useState(false)
   const form = useForm<StaffFormValues>({
     resolver: zodResolver(staffFormSchema),
     defaultValues: {
       name: '',
-      phone1: '',
-      phone2: '',
+      phone_number1: '',
+      phone_number2: '',
       gender: 'male',
       email: '',
       dob: new Date().toISOString(),
@@ -99,31 +88,27 @@ export function StaffFormContent({ onSuccess }: StaffFormContentProps) {
 
   async function onSubmit(data: StaffFormValues) {
     try {
-      const supabase = createClientComponentClient()
-      const {
-        data: { user },
-        error: authError,
-      } = await supabase.auth.getUser()
-
-      if (authError || !user) {
-        throw new Error('You must be logged in to add staff')
-      }
-
-      const { error } = await supabase.from('staff').insert({
-        name: data.name,
-        email: data.email,
-        phone1: data.phone1,
-        phone2: data.phone2,
-        gender: data.gender,
-        dob: data.dob,
-        address: data.address,
-        pincode: data.pincode,
-        UID: user.id,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+      const response = await fetch('/api/staff', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email_id: data.email,
+          phone_number1: data.phone_number1,
+          phone_number2: data.phone_number2,
+          gender: data.gender,
+          date_of_birth: data.dob,
+          address: data.address,
+          pincode: data.pincode,
+        }),
       })
 
-      if (error) throw new Error(error.message)
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.message || 'Failed to add staff')
+      }
 
       toast({
         title: 'Staff Added Successfully',
@@ -179,7 +164,7 @@ export function StaffFormContent({ onSuccess }: StaffFormContentProps) {
         />
         <FormField
           control={form.control}
-          name="phone1"
+          name="phone_number1"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Primary Phone</FormLabel>
@@ -192,7 +177,7 @@ export function StaffFormContent({ onSuccess }: StaffFormContentProps) {
         />
         <FormField
           control={form.control}
-          name="phone2"
+          name="phone_number2"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Secondary Phone</FormLabel>
@@ -234,46 +219,23 @@ export function StaffFormContent({ onSuccess }: StaffFormContentProps) {
               return (
                 <FormItem>
                   <FormLabel>Date of Birth</FormLabel>
-                  <Popover open={open} onOpenChange={setOpen}>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={'outline'}
-                          className="w-full pl-3 text-left font-normal"
-                        >
-                          {dateValue ? (
-                            format(dateValue, 'PPP')
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <div
-                        onClick={(e) => {
-                          e.preventDefault()
-                          e.stopPropagation()
-                        }}
-                      >
-                        <Calendar
-                          mode="single"
-                          selected={dateValue}
-                          onSelect={(date: Date | undefined) => {
-                            if (date) {
-                              field.onChange(date.toISOString())
-                              setOpen(false)
-                            }
-                          }}
-                          disabled={(date: Date) =>
-                            date > new Date() || date < new Date('1900-01-01')
-                          }
-                          initialFocus
-                        />
-                      </div>
-                    </PopoverContent>
-                  </Popover>
+                  <FormControl>
+                    <Input
+                      type="date"
+                      {...field}
+                      value={
+                        dateValue ? dateValue.toISOString().split('T')[0] : ''
+                      }
+                      onChange={(e) => {
+                        const date = e.target.value
+                          ? new Date(e.target.value)
+                          : undefined
+                        field.onChange(date?.toISOString() || '')
+                      }}
+                      max={new Date().toISOString().split('T')[0]}
+                      min="1900-01-01"
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )

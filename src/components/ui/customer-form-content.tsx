@@ -22,16 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-import { format } from 'date-fns'
-import { CalendarIcon } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
-import { useState } from 'react'
 
 const customerFormSchema = z.object({
   name: z.string().min(2, {
@@ -80,9 +71,6 @@ interface CustomerFormContentProps {
 
 export function CustomerFormContent({ onSuccess }: CustomerFormContentProps) {
   const { toast } = useToast()
-  const [dobOpen, setDobOpen] = useState(false)
-  const [anniversaryOpen, setAnniversaryOpen] = useState(false)
-
   const form = useForm<CustomerFormValues>({
     resolver: zodResolver(customerFormSchema),
     defaultValues: {
@@ -234,39 +222,23 @@ export function CustomerFormContent({ onSuccess }: CustomerFormContentProps) {
               return (
                 <FormItem>
                   <FormLabel>Date of Birth</FormLabel>
-                  <Popover open={dobOpen} onOpenChange={setDobOpen}>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={'outline'}
-                          className="w-full pl-3 text-left font-normal"
-                        >
-                          {dateValue ? (
-                            format(dateValue, 'PPP')
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={dateValue}
-                        onSelect={(date: Date | undefined) => {
-                          if (date) {
-                            field.onChange(date.toISOString())
-                            setDobOpen(false)
-                          }
-                        }}
-                        disabled={(date: Date) =>
-                          date > new Date() || date < new Date('1900-01-01')
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  <FormControl>
+                    <Input
+                      type="date"
+                      {...field}
+                      value={
+                        dateValue ? dateValue.toISOString().split('T')[0] : ''
+                      }
+                      onChange={(e) => {
+                        const date = e.target.value
+                          ? new Date(e.target.value)
+                          : undefined
+                        field.onChange(date?.toISOString() || '')
+                      }}
+                      max={new Date().toISOString().split('T')[0]}
+                      min="1900-01-01"
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )
@@ -282,42 +254,24 @@ export function CustomerFormContent({ onSuccess }: CustomerFormContentProps) {
               return (
                 <FormItem>
                   <FormLabel>Anniversary Date</FormLabel>
-                  <Popover
-                    open={anniversaryOpen}
-                    onOpenChange={setAnniversaryOpen}
-                  >
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={'outline'}
-                          className="w-full pl-3 text-left font-normal"
-                        >
-                          {dateValue ? (
-                            format(dateValue, 'PPP')
-                          ) : (
-                            <span>Pick a date (optional)</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={dateValue}
-                        onSelect={(date: Date | undefined) => {
-                          if (date) {
-                            field.onChange(date.toISOString())
-                            setAnniversaryOpen(false)
-                          }
-                        }}
-                        disabled={(date: Date) =>
-                          date > new Date() || date < new Date('1900-01-01')
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  <FormControl>
+                    <Input
+                      type="date"
+                      {...field}
+                      value={
+                        dateValue ? dateValue.toISOString().split('T')[0] : ''
+                      }
+                      onChange={(e) => {
+                        const date = e.target.value
+                          ? new Date(e.target.value)
+                          : undefined
+                        field.onChange(date?.toISOString() || '')
+                      }}
+                      max={new Date().toISOString().split('T')[0]}
+                      min="1900-01-01"
+                      placeholder="Optional"
+                    />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )
