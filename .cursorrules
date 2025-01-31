@@ -1,0 +1,60 @@
+{
+  "packageManager": "pnpm",
+  "rules": {
+    "preferredPackageManager": "pnpm",
+    "supabase": {
+      "connection": {
+        "required": [
+          "Use createClient from @supabase/supabase-js",
+          "Load environment variables before creating client",
+          "Required env vars: NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY"
+        ]
+      },
+      "authentication": {
+        "methods": [
+          "Use supabase.auth.getSession() to check current session",
+          "Use supabase.auth.signIn() for login",
+          "Use supabase.auth.signUp() for registration",
+          "Use supabase.auth.signOut() for logout"
+        ]
+      },
+      "database": {
+        "queries": [
+          "Use supabase.from('table_name') to reference a table",
+          "Use .select() for retrieving data",
+          "Use .insert() for adding data",
+          "Use .update() for modifying data",
+          "Use .delete() for removing data",
+          "Always handle potential errors with error checking"
+        ],
+        "tables": [
+          "customers",
+          "services",
+          "staff",
+          "appointments",
+          "reports"
+        ],
+        "views": [
+          "active_appointments",
+          "appointment_history",
+          "staff_schedules"
+        ]
+      },
+      "migrations": {
+        "instructions": [
+          "Place all migration files in supabase/migrations directory",
+          "Name migration files with timestamp prefix: YYYYMMDDHHMMSS_description.sql",
+          "Link project: npx supabase link --project-ref <project-ref>",
+          "use qwpkbkyklwrtgquzsjxf as project-ref for current project",
+          "Push migrations: npx supabase db push --include-all",
+          "Always use --include-all flag when pushing migrations"
+        ],
+        "directory": "supabase/migrations",
+        "naming": {
+          "pattern": "YYYYMMDDHHMMSS_description.sql",
+          "example": "20240320000001_create_reports.sql"
+        }
+      }
+    }
+  }
+} 
