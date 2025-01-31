@@ -140,8 +140,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 </h2>
               </div>
               <nav className="grid items-start px-4 text-sm font-medium">
-                {sidebarNavItems.map((item) => (
-                  <NavItem key={item.href} item={item} pathname={pathname} />
+                {sidebarNavItems.map((item, index) => (
+                  <NavItem
+                    key={item.href || `nav-item-${index}`}
+                    item={item}
+                    pathname={pathname}
+                  />
                 ))}
               </nav>
             </div>
@@ -188,9 +192,9 @@ function NavItem({ item, pathname }: { item: any; pathname: string }) {
           )}
         >
           <div className="space-y-1 pl-8 pt-1">
-            {item.subItems.map((subItem: any) => (
+            {item.subItems.map((subItem: any, subIndex: number) => (
               <Link
-                key={subItem.href}
+                key={subItem.href || `${item.title}-subitem-${subIndex}`}
                 href={subItem.href}
                 className={cn(
                   'flex w-full items-center gap-2 rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent/50',
